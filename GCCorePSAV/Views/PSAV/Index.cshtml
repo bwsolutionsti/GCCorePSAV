@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Controllers.Services
+@{
+    ViewData["Title"] = "Bienvenidos";
+}
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+        <div class="row">
+            <h2>Bienvenido @Lgc.UsuarioDraw</h2>
+        </div>
+}

@@ -1,0 +1,49 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@using Syncfusion.JavaScript
+@using Syncfusion.MVC.EJ
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+
+    <form method="post" asp-action="Subrenta" asp-controller="PSAV">
+        <input type="hidden" name="Advance" id="Advance" value="0" />
+        <div class="container-fluid">
+            <div class="row">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Subrenta</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGrid" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource" update-url="SubRentaNormalUpdate" insert-url="SubRentaNormalInsert" remove-url="SubRentaNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="Category" header-text="Categoría" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Invoice" header-text="#Factura/Cotización" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Supplier" header-text="Proveedor" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="Descripcion" header-text="Descripción" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Gastosub" header-text="Gastos subrenta" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="Ventasub" header-text="Venta subrenta" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <table border="0">
+            <tr><td><button type="submit" class="btn btn-default">Continuar</button></td></tr>
+        </table>
+    </form>
+
+}

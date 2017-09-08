@@ -1,0 +1,26 @@
+﻿@using Syncfusion.JavaScript
+@using Syncfusion.MVC.EJ
+@using GCCorePSAV.Controllers.Services
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <div style="width: 500px">
+
+        <ej-tab id="tabClient">
+            <e-tab-items>
+                <e-tab-item id="Pizza" text="Pizza Menu">
+                    <e-content-template></e-content-template>
+                </e-tab-item>
+                <e-tab-item id="Pasta" text="Pasta Menu">
+                    <e-content-template></e-content-template>
+                </e-tab-item>
+                <e-tab-item id="sandwizza" text="Sandwizza Menu">
+                    <e-content-template></e-content-template>
+                </e-tab-item>
+            </e-tab-items>
+        </ej-tab>
+
+    </div>
+}

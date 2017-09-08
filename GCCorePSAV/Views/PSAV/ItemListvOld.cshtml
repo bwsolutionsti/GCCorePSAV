@@ -1,0 +1,111 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model ItemListModel.ItemListEventModel
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+
+        <form method="post" asp-action="ItemList" asp-controller="PSAV">
+            <div class="container-fluid">
+                <div class="row">
+                    <h5>Detalle Evento</h5>
+                    <hr />
+                    <h6>Datos del Evento</h6>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <table border="0" class="table" width="100%">
+                                <thead>
+                                    <tr><th>Evento</th></tr>
+                                </thead>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="EventoName" class="control-label"></label><input asp-for="EventoName" class="form-control" disabled value="@HttpContextAccessor.HttpContext.Request.Cookies["EVN"]"/></div></td>
+                                </tr>
+                                <tr><td><div class="form-group"><input asp-for="Salon" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><input asp-for="Asistentes" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><input asp-for="Montaje" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><input asp-for="Horario" class="form-control" /></div></td></tr>
+                            </table>
+                        </div>
+                        <div class="col-md-5">
+                            <table border="0" class="table" width="100%">
+                                <thead>
+                                    <tr><th>Renta de equipo y servicios</th></tr>
+                                </thead>
+                                <tr>
+                                    <td><div class="form-group"><input asp-for="Clave" class="form-control" /></div></td>
+                                </tr>
+                                <tr><td><div class="form-group"><input asp-for="Cantidad" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><input asp-for="Dias" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><input asp-for="Descripcion" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><input asp-for="PrecioUnit" class="form-control" /></div></td></tr>
+                                <tr><td>
+                                    <select id="Categoria" name="Categoria">
+                                        <option id="0">Seleccione Categoría</option>
+                                        @if(ViewBag.CategoriaList!=null)
+                                        {
+                                            foreach(var itemCategoria in ViewBag.CategoriaList)
+                                            {
+                                                <option id="@itemCategoria.ID">@itemCategoria.Catego</option>
+                                            }
+                                        }
+                                    </select>
+                                    </td></tr>
+                                <tr><td><button type="submit" class="btn btn-default">Agregar</button></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    </form>
+<form method="post" asp-action="ItemListWorkForce" asp-controller="PSAV">
+    @if (ViewBag.ServiciosList != null)
+    {
+        <input type="hidden" value="Si" name="Siguiente" id="Siguiente" />
+                        <div class="row">
+                            <div class="col-md-5">
+                                <table border="0" class="table table-striped" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Clave</th>
+                                            <th>Cantidad</th>
+                                            <th>Dias</th>
+                                            <th>Descripcion</th>
+                                            <th>Precio unitario</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var ServicioItem in ViewBag.ServiciosList)
+                                        {
+                                            <tr>
+                                                <td>@ServicioItem.Clave</td>
+                                                <td>@ServicioItem.Cantidad</td>
+                                                <td>@ServicioItem.Dias</td>
+                                                <td>@ServicioItem.Descripcion</td>
+                                                <td>@ServicioItem.PrecioUnit</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <table border="0" class="table" width="100%">
+                                    <tr>
+                                        <td><button type="reset" class="btn btn-default">Limpiar Grid</button></td>
+                                        <td><button type="submit" class="btn btn-default">Siguiente</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+    }
+    else
+    {
+        <input type="hidden" value="No" name="Siguiente" id="Siguiente" />
+    }
+        </form>
+}

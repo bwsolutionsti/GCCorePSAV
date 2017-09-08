@@ -1,0 +1,14 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model GCCorePSAV.Models.PSAVCrud.UsuariosConsulta
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+}
+ else
+{
+}

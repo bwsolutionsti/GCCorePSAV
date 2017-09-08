@@ -1,0 +1,41 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model GCCorePSAV.Models.PSAVCrud.CoinsModel
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+    <form method="post" asp-action="NewCoin" asp-controller="PSAVCrud">
+        <h6>Nueva Moneda</h6>
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <table border="0">
+                    <thead>
+                        <tr><th>Moneda</th></tr>
+                    </thead>
+                    <tr>
+                        <td><div class="form-group"><input asp-for="CoinName" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="form-group"><input asp-for="CoinValue" class="form-control" /></div></td>
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class=".col-md-3 .col-md-offset-3">
+                <table border="0">
+                    <tr>
+                        <td><button type="reset" class="btn btn-default">Cancelar Operación</button></td>
+                        <td><button type="submit" class="btn btn-default">Guardar</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+}

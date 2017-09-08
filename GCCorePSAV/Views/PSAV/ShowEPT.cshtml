@@ -1,0 +1,177 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model EPTModel
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuthS(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+
+    <form method="post" asp-action="NewEPT" asp-controller="PSAV">
+        <div class="row">
+            <table border="0">
+                <tr><td><button type="submit" class="btn btn-default">Editar</button></td><td><a asp-for="EPT" asp-controller="PSAV">Regresar</a></td></tr>
+            </table>
+        </div>
+        <input type="hidden" value="0" name="NewValue" id="NewValue" />
+        <input type="hidden" value="@Model.EPTNumber" name="folio" id="folio" />
+        <div class="row">
+            <h4>Datos Cliente</h4>
+            <div class="col-md-5">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Razón Social</th>
+                            <th>RFC</th>
+                            <th>Domicilio</th>
+                            <th>Correo Electrónico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.RazonSocial</td>
+                            <td>@Model.RFC</td>
+                            <td>@Model.DomicilioFiscal</td>
+                            <td>@Model.Email</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h4>Datos Evento</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Montaje</th>
+                        <th>Contacto</th>
+                        <th>Inicio</th>
+                        <th>Termino</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.EventName</td>
+                        <td>@Model.MountDate @Model.MountHour</td>
+                        <td>@Model.ContactClientName</td>
+                        <td>@Model.StartDate @Model.StartHour</td>
+                        <td>@Model.FinishDate @Model.FinishHour</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h4>Representante Ventas</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Puesto</th>
+                        <th>Correo Electrónico</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.SMName</td>
+                        <td>@Model.SMJob</td>
+                        <td>@Model.SMEmail</td>
+                        <td>@Model.SMPhone</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h4>PSAV Production Manager</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Celular</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.PMName</td>
+                        <td>@Model.PMMobile</td>
+                        <td>@Model.PMLocation</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h4>Resumen Totales</h4>
+            <table class="table">
+                <tr>
+                    <td>AUDIO</td><td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>AUDIO</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+
+}

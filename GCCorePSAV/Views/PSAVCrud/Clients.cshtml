@@ -1,0 +1,62 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model GCCorePSAV.Models.PSAVCrud.ClientModel.ClientQuickSearch
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+    <div class="row">
+        <h2>Clientes</h2>
+    </div>
+    <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a asp-action="Clients" asp-controller="PSAVCrud">Consultas</a></li>
+        <li role="presentation"><a asp-action="NewClient" asp-controller="PSAVCrud">Nuevo</a></li>
+    </ul>
+    <form method="post" asp-controller="PSAVCrud" asp-action="Coins" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input asp-for="FullName" class="form-control">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Buscar!</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </div>
+    </form>
+    <form method="post" asp-controller="PSAVCrud" asp-action="EditClient" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-horizontal">
+        <div class="row">
+            @if (ViewBag.CoinsList != null)
+                {
+                <div class="table-responsive">
+                    <table class="table table-striped ">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>R.F.C.</th>
+                            
+                        </tr>
+                        @foreach (var URMItem in ViewBag.CoinsList)
+                    {
+                            <tr>
+                                <td>@URMItem.IDClient<input type="hidden" value="@URMItem.IDClient" /></td>
+                                <td>@URMItem.Razon</td>
+                                <td>@URMItem.RFC</td>
+                                <td><button type="submit" class="btn btn-default">Ver +</button></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    </form>
+}
+else
+{
+    <br />
+    <div class="alert alert-danger" role="alert">No tiene permisos para acceder a esta opción</div>
+}

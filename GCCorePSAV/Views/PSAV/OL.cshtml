@@ -1,0 +1,173 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@using Syncfusion.JavaScript
+@using Syncfusion.MVC.EJ
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+
+    <form method="post" asp-action="OL" asp-controller="PSAV">
+        <input type="hidden" name="Advance" id="Advance" value="0" />
+        <div class="container-fluid">
+            <div class="row">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Freelance y outside labor</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGrid" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource1" update-url="SubRentaNormalUpdate" insert-url="SubRentaNormalInsert" remove-url="SubRentaNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="Nombres" header-text="Nombre" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Puesto" header-text="Puesto" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Dias" header-text="Dias" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="Sueldo" header-text="Sueldo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Condiciones" header-text="Condiciones" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="CostoCarga" header-text="Costo Carga Fiscal" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="CostoTotal" header-text="Costo Total" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Viaticos</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGrid1" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource2" update-url="SubRentaNormalUpdate" insert-url="SubRentaNormalInsert" remove-url="SubRentaNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="Nombres" header-text="Nombre" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Puesto" header-text="Puesto" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Observaciones" header-text="Observaciones" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="TotalSol" header-text="Total Solicitado" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Comisión ventas</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGrid2" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource3" update-url="SubRentaNormalUpdate" insert-url="SubRentaNormalInsert" remove-url="SubRentaNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="Nombres" header-text="Nombre" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Puesto" header-text="Puesto" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Comision" header-text="Comisión" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="VentaNeta" header-text="Venta Neta" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Comisiontot" header-text="Comisión Total" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Gastos Financieros</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGrid3" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource4" update-url="SubRentaNormalUpdate" insert-url="SubRentaNormalInsert" remove-url="SubRentaNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="Comision" header-text="Comisión" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Importe" header-text="Importe" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="PorcCom" header-text="% Comisión" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="ImporteCom" header-text="Importe Comisión" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Consumibles, Fletes y otros gastos variables</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGrid4" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource5" update-url="SubRentaNormalUpdate" insert-url="SubRentaNormalInsert" remove-url="SubRentaNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="Cotizacion" header-text="Cotización" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Supplier" header-text="Proveedor" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Description" header-text="Descripción" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="Costo" header-text="Costo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Cargos internos</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGrid5" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource6" update-url="SubRentaNormalUpdate" insert-url="SubRentaNormalInsert" remove-url="SubRentaNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="Equipo" header-text="Equipo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Categoria" header-text="Categoría" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="PrecioLista" header-text="Precio Lista" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="TipoOper" header-text="Tipo Operación" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="PorcCargo" header-text="% Cargo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                        <e-column field="MontoCargo" header-text="Monto Cargo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <table border="0">
+            <tr><td><button type="submit" class="btn btn-default">Continuar</button></td></tr>
+        </table>
+    </form>
+
+}

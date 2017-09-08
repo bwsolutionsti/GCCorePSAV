@@ -1,0 +1,171 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@using Syncfusion.JavaScript
+@using Syncfusion.MVC.EJ
+@model EPTModel
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+    <form method="get" asp-action="ExportEPT" asp-controller="PSAV">
+        <input type="hidden" name="folio" id="folio" value="@Model.EPTNumber" />
+        <table border="0">
+            <tr><td><button type="submit" class="btn btn-default">Exportar</button></td></tr>
+        </table>
+    </form>
+    <form method="get" asp-action="EPT" asp-controller="PSAV">
+        <table border="0">
+            <tr><td><button type="submit" class="btn btn-default">Regresar a Principal</button></td></tr>
+        </table>
+    </form>
+    <!--Generales EPT-->
+    <form method="post" asp-action="EditEPT" asp-controller="PSAV">
+        <h4>Datos Cliente</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Razón Social</th>
+                    <th>RFC</th>
+                    <th>Domicilio</th>
+                    <th>Correo Electrónico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.RazonSocial</td>
+                    <td>@Model.RFC</td>
+                    <td>@Model.DomicilioFiscal</td>
+                    <td>@Model.Email</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Datos Evento</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Montaje</th>
+                    <th>Contacto</th>
+                    <th>Inicio</th>
+                    <th>Termino</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.EventName</td>
+                    <td>@Model.MountDate @Model.MountHour</td>
+                    <td>@Model.ContactClientName</td>
+                    <td>@Model.StartDate @Model.StartHour</td>
+                    <td>@Model.FinishDate @Model.FinishHour</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Representante Ventas</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Puesto</th>
+                    <th>Correo Electrónico</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.SMName</td>
+                    <td>@Model.SMJob</td>
+                    <td>@Model.SMEmail</td>
+                    <td>@Model.SMPhone</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>PSAV Production Manager</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Celular</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.PMName</td>
+                    <td>@Model.PMMobile</td>
+                    <td>@Model.PMLocation</td>
+                </tr>
+            </tbody>
+        </table>
+        <table border="0">
+            @*<tr><td><button type="submit" class="btn btn-default">Editar</button></td></tr>*@
+        </table>
+    </form>
+    <!--Itemlist-->
+    <form method="post" asp-action="EditItemList" asp-controller="PSAV">
+        <input type="hidden" name="EVT" id="EVT" value="@Model.EPTNumber" />
+        <h4>Item List</h4>
+        <table border="0" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Salon</th>
+                    <th>Asistentes</th>
+                </tr>
+            </thead>
+            @foreach (var itemlist in ViewBag.ILList)
+            {
+                <tr><td><input type="hidden" name="IDIL" id="IDIL" value="@itemlist.IDITL" />@itemlist.Salon</td><td>@itemlist.Asistentes</td></tr>
+            }
+            @*<tr><td><button type="submit" class="btn btn-default">Editar</button></td></tr>*@
+        </table>
+    </form>
+    <!--ItemList Workforce-->
+    <form method="post" asp-action="EditItemListWF" asp-controller="PSAV">
+        <input type="hidden" name="EVT" id="EVT" value="@Model.EPTNumber" />
+        <h4>Item List Mano de Obra</h4>
+        <table border="0" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Salon</th>
+                    <th>Asistentes</th>
+                </tr>
+            </thead>
+            @foreach (var itemlist in ViewBag.ILListWF)
+                {
+                <tr><td><input type="hidden" name="IDIL" id="IDIL" value="@itemlist.IDITL" />@itemlist.Salon</td><td>@itemlist.Asistentes</td></tr>
+            }
+            @*<tr><td><button type="submit" class="btn btn-default">Editar</button></td></tr>*@
+        </table>
+    </form>
+    <!--Venta Descuento-->
+    @*<form method="post" asp-action="EditVtaDesc" asp-controller="PSAV">
+        <h4>Venta Descuento</h4>
+        <table border="0">
+            <tr><td><button type="submit" class="btn btn-default">Editar</button></td></tr>
+        </table>
+    </form>
+    <!--Venta Comisión-->
+    <form method="post" asp-action="EditVtaFee" asp-controller="PSAV">
+        <h4>Venta Comisión</h4>
+        <table border="0">
+            <tr><td><button type="submit" class="btn btn-default">Editar</button></td></tr>
+        </table>
+    </form>
+    <!--Subrenta-->
+    <form method="post" asp-action="EditSubrenta" asp-controller="PSAV">
+        <h4>Subrenta</h4>
+        <table border="0">
+            <tr><td><button type="submit" class="btn btn-default">Editar</button></td></tr>
+        </table>
+    </form>
+    <!--OL-->
+    <form method="post" asp-action="EditOL" asp-controller="PSAV">
+        <h4>OL</h4>
+        <table border="0">
+            <tr><td><button type="submit" class="btn btn-default">Editar</button></td></tr>
+        </table>
+    </form>*@
+}

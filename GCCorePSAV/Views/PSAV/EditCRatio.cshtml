@@ -1,0 +1,154 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@using Syncfusion.JavaScript
+@using Syncfusion.MVC.EJ
+@model CaptureRatio.CRVResumenModel
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+
+    <br />
+    <form method="get" asp-action="ExportCratioOne" asp-controller="PSAV">
+        <table border="0">
+            <tr>
+                <td><button type="submit" class="btn btn-default">Exportar</button></td>
+            </tr>
+        </table>
+    </form>
+    <form method="post" asp-action="EditCRatio" asp-controller="PSAV">
+        <input type="hidden" name="Advance" id="Advance" value="1" />
+        <div class="container-fluid">
+            <div class="row">
+                <h5>Nuevo Capture Ratio</h5>
+                <hr />
+                <h6>Datos Generales</h6>
+                <div class="row">
+                    <div class="col-md-10">
+                        <table border="0" class="table" width="100%">
+                            <thead>
+                                <tr><th>Información Reporte</th></tr>
+                            </thead>
+                            <tr>
+                                <td><div class="form-group"><label asp-for="HotelName" class="control-label"></label><input asp-for="HotelName" class="form-control" disabled /></div></td>
+                                <td><div class="form-group"><label asp-for="CityLoc" class="control-label"></label><input asp-for="CityLoc" class="form-control"disabled /></div></td>
+                                <td><div class="form-group"><label asp-for="LocationHotel" class="control-label"></label><input asp-for="LocationHotel" class="form-control" disabled/></div></td>
+                            </tr>
+                            <tr>
+                                <td><div class="form-group"><label asp-for="DET" class="control-label"></label><input asp-for="DET" class="form-control" disabled/></div></td>
+                                <td><div class="form-group"><label asp-for="Contact" class="control-label"></label><input asp-for="Contact" class="form-control" disabled/></div></td>
+                                <td><div class="form-group"><label asp-for="FillFormName" class="control-label"></label><input asp-for="FillFormName" class="form-control" disabled/></div></td>
+                            </tr>
+                        </table>
+                    </div>
+                    @*<div class="row">
+                        <div class="col-md-10">
+                            <table border="0" class="table" width="100%">
+                                <thead>
+                                    <tr><th>Información Eventos</th></tr>
+                                </thead>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="MesOp" class="control-label"></label><input asp-for="MesOp" class="form-control" disabled/></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="Finicio" class="control-label"></label><input asp-for="Finicio" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="FFin" class="control-label"></label><input asp-for="FFin" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="EventName" class="control-label"></label><input asp-for="EventName" class="form-control" disabled/></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="FinalClient" class="control-label"></label><input asp-for="FinalClient" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="ContactName" class="control-label"></label><input asp-for="ContactName" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="ContactContact" class="control-label"></label><input asp-for="ContactContact" class="form-control" disabled/></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="Agency" class="control-label"></label><input asp-for="Agency" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="EventType" class="control-label"></label><input asp-for="EventType" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="EmpresaAV" class="control-label"></label><input asp-for="EmpresaAV" class="form-control" disabled/></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="RsponsablePSAV" class="control-label"></label><input asp-for="RsponsablePSAV" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="VentasPSAV" class="control-label"></label><input asp-for="VentasPSAV" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="LB" class="control-label"></label><input asp-for="LB" class="form-control" disabled/></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="Suma" class="control-label"></label><input asp-for="Suma" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="CRatio" class="control-label"></label><input asp-for="CRatio" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="HotelFee" class="control-label"></label><input asp-for="HotelFee" class="form-control" disabled/></div></td>
+                                </tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="LBCause" class="control-label"></label><input asp-for="LBCause" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="NextEventDate" class="control-label"></label><input asp-for="NextEventDate" class="form-control" disabled/></div></td>
+                                    <td><div class="form-group"><label asp-for="NextEventPlace" class="control-label"></label><input asp-for="NextEventPlace" class="form-control" disabled/></div></td>
+                                </tr>
+                                @*<tr>
+                                    <td><button type="reset" class="btn btn-default">Cancelar Operación</button></td>
+                                    <td><button type="submit" class="btn btn-default">Siguiente</button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>*@
+    </form>
+
+        @if (ViewBag.CRLIt != null)
+        {
+            @*<div class="row">
+                <div class="col-md-10">
+                    <table border="0" class="table" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Evento</th>
+                                <th>Cliente</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>LB</th>
+                                <th>CR</th>
+                                <th>Causa</th>
+                                <th>Venta PSAV</th>
+                                <th>Siguiente Evento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var DetItem in ViewBag.CRLIt)
+                            {
+                                <tr>
+                                    <td>@DetItem.EventName</td>
+                                    <td>@DetItem.FinalClient</td>
+                                    <td>@DetItem.Finicio</td>
+                                    <td>@DetItem.FFin</td>
+                                    <td>@DetItem.LB</td>
+                                    <td>@DetItem.CRatio</td>
+                                    <td>@DetItem.LBCause</td>
+                                    <td>@DetItem.VentasPSAV</td>
+                                    <td>@DetItem.NextEventPlace</td>
+                                </tr>
+                            }
+                            <form method="get" asp-action="CRatio" asp-controller="PSAV">
+                                <tr><td><button type="submit" class="btn btn-default">Regresar</button></td></tr>
+                            </form>
+                        </tbody>
+                    </table>
+                </div>
+            </div>*@
+            <ej-grid id="FlatGrid" allow-paging="true">
+                <e-datamanager json="(IEnumerable<object>)ViewBag.datasource" update-url="CratioNormalUpdate" insert-url="CratioNormalInsert" remove-url="CratioNormalDelete" adaptor="remoteSaveAdaptor" />
+                <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Normal)"></e-edit-settings>
+                <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                <e-columns>
+                    <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                    <e-column field="EventName" header-text="EventName" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                    <e-column field="IDClient" header-text="IDClient" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                    <e-column field="StartDate" header-text="StartDate" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                    <e-column field="EndDate" header-text="EndDate" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                    <e-column field="LB" header-text="LB" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                    <e-column field="CRatio" header-text="CRatio" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                    <e-column field="LBCause" header-text="LBCause" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                    <e-column field="VtasPSAV" header-text="VentasPSAV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                    <e-column field="NextEventPlace" header-text="NextEventPlace" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                </e-columns>
+            </ej-grid>
+        }
+
+}

@@ -1,0 +1,20 @@
+﻿@using Syncfusion.JavaScript
+@using Syncfusion.MVC.EJ
+@using GCCorePSAV.Controllers.Services
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+<br /><br /><br />
+<ej-grid id="FlatGrid" allow-paging="true">
+    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource" update-url="RoleNormalUpdate" insert-url="RoleNormalInsert" remove-url="RoleNormalDelete" adaptor="remoteSaveAdaptor" />
+    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Normal)"></e-edit-settings>
+    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+    <e-columns>
+        <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+        <e-column field="Nombre" header-text="Nombre" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+        <e-column field="Descripcion" header-text="Descripción" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+    </e-columns>
+</ej-grid>
+}

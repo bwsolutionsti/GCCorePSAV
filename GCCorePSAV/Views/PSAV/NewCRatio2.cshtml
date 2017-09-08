@@ -1,0 +1,74 @@
+﻿@using Syncfusion.JavaScript
+@using Syncfusion.MVC.EJ
+@using GCCorePSAV.Controllers.Services
+@using GCCorePSAV.Models
+@inject LoggedInComponent Lgc
+@model CaptureRatio.CRVModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br /><br />
+    <form method="post" asp-action="NewCratio" asp-controller="PSAV">
+        <div class="container-fluid">
+            <div class="row">
+                <h5>Nuevo Capture Ratio</h5>
+                <hr />
+                <h6>Datos Generales</h6>
+                <div class="row">
+                    <div class="col-md-10">
+                        <table border="0" class="table" width="100%">
+                            <thead>
+                                <tr><th>Información Reporte</th></tr>
+                            </thead>
+                            <tr>
+                                <td><div class="form-group"><label asp-for="HotelName" class="control-label"></label><input asp-for="HotelName" class="form-control" disabled/></div></td>
+                                <td><div class="form-group"><label asp-for="City" class="control-label"></label><input asp-for="City" class="form-control" disabled/></div></td>
+                                <td><div class="form-group"><label asp-for="FechaLoc" class="control-label"></label><input asp-for="FechaLoc" class="form-control" disabled/></div></td>
+                            </tr>
+                            <tr>
+                                <td><div class="form-group"><label asp-for="DET" class="control-label"></label><input asp-for="DET" class="form-control" disabled/></div></td>
+                                <td><div class="form-group"><label asp-for="ContactDET" class="control-label"></label><input asp-for="ContactDET" class="form-control" disabled /></div></td>
+                                <td><div class="form-group"><label asp-for="NameFillForm" class="control-label"></label><input asp-for="NameFillForm" class="form-control" disabled/></div></td>
+                            </tr>
+                            @*<tr>
+                                <td><button type="reset" class="btn btn-default">Limpiar</button></td>
+                                <td><button type="submit" class="btn btn-default">Guardar</button></td>
+                            </tr>*@
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Información Eventos</h4>
+                    <ej-grid id="FlatGrid" allow-paging="true" scroll="true">
+                        <e-datamanager json="(IEnumerable<object>)ViewBag.datasource" update-url="CratioNormalUpdate" insert-url="CratioNormalInsert" remove-url="CratioNormalDelete" adaptor="remoteSaveAdaptor" />
+                        <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                        <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                        <e-columns>
+                            <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                            <e-column field="MonthOp" header-text="Mes Operación" edit-type="Datepicker"format="{0:MM/yyyy}" ></e-column>
+                            <e-column field="StartDate" header-text="Fecha Inicio" edit-type="Datepicker" format="{0:MM/dd/yyyy}"></e-column>
+                            <e-column field="EndDate" header-text="Fecha Fin" edit-type="Datepicker" format="{0:MM//dd/yyyy}"></e-column>
+                            <e-column field="EventName" header-text="Nombre Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                            <e-column field="IDClient" header-text="Nombre Cliente" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
+                            <e-column field="ContactName" header-text="Nombre Contacto" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="100"></e-column>
+                            <e-column field="ContactContact" header-text="Contacto" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="100"></e-column>
+                            <e-column field="Agency" header-text="Agencia" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="IDEventType" header-text="Tipo Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="EmpresaAV" header-text="Empresa AV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="ResponsableVtas" header-text="Responsable PSAV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="VtasPSAV" header-text="Ventas PSAV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="LB" header-text="LB" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="Suma" header-text="Suma" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="CRatio" header-text="CRatio" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="HotelFee" header-text="Hotel Fee" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="LBCause" header-text="Causa LB" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="NextEventDate" header-text="Fecha Siguiente Evento" edit-type="Datepicker" format="{0:MM/dd/yyyy}"></e-column>
+                            <e-column field="NextEventPlace" header-text="Lugar Siguiente Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                        </e-columns>
+                    </ej-grid>
+                </div>
+            </div>
+        </div>
+    </form>
+}

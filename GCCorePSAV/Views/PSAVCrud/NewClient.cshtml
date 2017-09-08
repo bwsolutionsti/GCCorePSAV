@@ -1,0 +1,88 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model GCCorePSAV.Models.PSAVCrud.ClientModel.ClientNewAll
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <form method="post" asp-action="NewClientPost" asp-controller="PSAVCrud">
+        <h1>Nuevo Cliente</h1>
+        <div class="row">
+            
+                <h3>Datos Persona</h3>
+                <table>
+                    
+                        <tr>
+                            <th>Primer Nombre</th>
+                            <th>Segundo Nombre</th>
+                            <th>Primer Apellido</th>
+                            <th>Segundo Apellido</th>                            
+                        </tr>
+                    
+                        <tr>
+                            <td><input asp-for="PrimerNombre" class="form-control" /></td>
+                            <td><input asp-for="SegundoNombre" class="form-control" /></td>
+                            <td><input asp-for="PrimerApellido" class="form-control" /></td>
+                            <td><input asp-for="SegundoApellido" class="form-control" /></td>                            
+                        </tr>
+                    <tr>
+                        <th>Razón Social</th>
+                        <th>DOB</th>
+                        <th>RFC</th>
+                        <th>Nombre Comercial</th>
+                    </tr>
+                    <tr>
+                        <td><input asp-for="RazonSocial" class="form-control" /></td>
+                        <td><input asp-for="DOB" class="form-control" /></td>
+                        <td><input asp-for="RFC" class="form-control" /></td>
+                        <td><input asp-for="NombreComercial" class="form-control" /></td>
+                    </tr>
+                </table>
+                <h3>Datos Contacto</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Nombre Contacto</td>
+                            <td>Teléfono</td>
+                            <td>Extensión</td>
+                            <td>Celular</td>
+                            <td>Email</td>
+                        </tr>
+                    </thead>
+                    <tbody><tr>
+                        <td><input asp-for="NombreContacto" class="form-control" /></td>
+                               <td><input asp-for="Telefono" class="form-control" /></td>
+                               <td><input asp-for="Extension" class="form-control" /></td>
+                               <td><input asp-for="Celular" class="form-control" /></td>
+                               <td><input asp-for="EMail" class="form-control" /></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h3>Datos Domicilio</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Domicilio</th>
+                            <th>Domicilio Fiscal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input asp-for="Domicilio" class="form-control" /></td>
+                            <td><input asp-for="DomicilioFiscal" class="form-control" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <tr>
+                        <td><button type="reset" class="btn btn-default">Limpiar</button></td>
+                        <td><button type="submit" class="btn btn-default">Guardar Cliente</button></td>
+                    </tr>
+                </table>
+            </div>
+        
+    </form>
+}

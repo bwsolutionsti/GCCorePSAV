@@ -1,0 +1,58 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model EPTModel
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+    <div class="row">
+        <h2>Capture Ratio</h2>
+    </div>
+    <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a asp-action="CRatio" asp-controller="PSAV">Consultas</a></li>
+        <li role="presentation"><a asp-action="NewCratio" asp-controller="PSAV">Nuevo</a></li>
+    </ul>
+    <div class="row">
+        <form method="post" asp-action="CRatio" asp-controller="PSAV">
+            <table border="0">
+                <tr><td><input type="text" name="ac1" id="ac1" placeholder="Por Hotel" /></td><td><button type="submit" class="btn btn-default">Buscar</button></td></tr>
+            </table>
+        </form>
+    </div>
+    @if (ViewBag.CRList != null)
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Hotel</th>
+                            <th>Location</th>
+                            <th>Ciudad</th>
+                            <th>DET</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var DetItem in ViewBag.CRList)
+                        {
+                            <form asp-action="EditCRatio" asp-controller="PSAV" method="post">
+                                <tr>
+                                    <td>@DetItem.HotelName<input type="hidden" name="IDC" id="IDC" value="@DetItem.IDCratio" /></td>
+                                    <td>@DetItem.LocationHotel</td>
+                                    <td>@DetItem.CityLoc</td>
+                                    <td>@DetItem.DET</td>
+                                    <td><button type="submit" class="btn btn-default">Ver Detalle</button></td>
+                                </tr>
+                            </form>
+                        }
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}

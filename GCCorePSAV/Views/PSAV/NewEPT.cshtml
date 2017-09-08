@@ -1,0 +1,209 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model EPTModel
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+
+    <br />
+    
+    <section>
+        <form method="post" asp-action="NewEPT" asp-controller="PSAV">
+            <div class="container-fluid">
+                <div class="row">
+                    <input type="hidden" value="1" name="NewValue" id="NewValue" />
+
+                    <h5>Nuevo EPT</h5>
+                    <hr />
+                    <h6>Seleccione Cliente</h6>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <table border="0" class="table" width="100%">
+                                <thead>
+                                    <tr><th>Cliente</th></tr>
+                                </thead>
+                                <tr>
+                                    <td><auto-complete-client id="ac1" items-source="@Model.Clients" autocomplete="on" class="form-control"></auto-complete-client></td>
+                                    <td><button type="submit" class="btn btn-default">Validar</button></td>
+                                    <td><a asp-action="NewClient" asp-controller="PSAVCrud" target="_blank">Nuevo Cliente</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class=".col-xs-6">
+                        <table id="connfigEPT" cellspacing="2" class="table table-bordered">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-md-10control-label">Idioma</label>
+                                        <select class="form-control form-control-sm" id="LanguageSel" name="LanguageSel">
+                                            <option value="0">Seleccione idioma</option>
+                                            <option value="1">Español</option>
+                                            <option value="2">English</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td><div class="form-group"><label asp-for="EPTNumber" class="col-md-10control-label"></label><input asp-for="EPTNumber" class="form-control" /></div></td>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-md-10control-label">Moneda</label>
+                                        <select class="form-control form-control-sm" id="MonedaSel" name="MonedaSel">
+                                            <option value="0">Seleccione Moneda</option>
+                                            @foreach (var Coin in ViewBag.CoinsList)
+                                            {
+                                                <option value="@Coin.IDCoin">@Coin.CoinName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <h6>Datos del Cliente</h6>
+                <div class="row">
+                    <div class="col-md-5">
+                        <table border="0" class="table" width="100%">
+                            <thead>
+                                <tr><th>Cliente</th></tr>
+                            </thead>
+                            <tr>
+                                <td><input asp-for="IDClient" class="hide" /><div class="form-group"><label asp-for="RazonSocial" class="control-label"></label><input asp-for="RazonSocial" class="form-control" disabled /></div></td>
+                            </tr>
+                            <tr><td><div class="form-group"><label asp-for="DomicilioComercial" class="control-label"></label><input asp-for="DomicilioComercial" class="form-control" disabled /></div></td></tr>
+                            <tr><td><div class="form-group"><label asp-for="DomicilioFiscal" class="control-label"></label><input asp-for="DomicilioFiscal" class="form-control" disabled /></div></td></tr>
+                            <tr><td><div class="form-group"><label asp-for="RFC" class="control-label"></label><input asp-for="RFC" class="form-control" disabled /></div></td></tr>
+                        </table>
+                    </div>
+                    <div class="col-md-5">
+                        <table border="0" class="table" width="100%">
+                            <thead>
+                                <tr><th>Contacto del cliente</th></tr>
+                            </thead>
+                            <tr>
+                                <td><div class="form-group"><label asp-for="ContactClientName" class="control-label"></label><input asp-for="ContactClientName" class="form-control" disabled /></div></td>
+                            </tr>
+                            <tr>
+                                <td><div class="form-group"><label asp-for="Job" class="control-label"></label><input asp-for="Job" class="form-control" disabled /></div></td>
+                            </tr>
+                            <tr><td><div class="form-group"><label asp-for="Phone" class="control-label"></label><input asp-for="Phone" class="form-control" disabled /></div></td></tr>
+                            <tr><td><div class="form-group"><label asp-for="Ext" class="control-label"></label><input asp-for="Ext" class="form-control" disabled /></div></td></tr>
+                            <tr><td><div class="form-group"><label asp-for="Mobile" class="control-label"></label><input asp-for="Mobile" class="form-control" disabled /></div></td></tr>
+                            <tr><td><div class="form-group"><label asp-for="Fax" class="control-label"></label><input asp-for="Fax" class="form-control" disabled /></div></td></tr>
+                            <tr><td><div class="form-group"><label asp-for="Email" class="control-label"></label><input asp-for="Email" class="form-control" disabled /></div></td></tr>
+                            <tr><td><div class="form-group"><label asp-for="AEMail" class="control-label"></label><input asp-for="AEMail" class="form-control" disabled /></div></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <h6>Datos del evento</h6>
+                <div class="row">
+                    <div class="col-md-5">
+                        <table border="0" class="table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Información del evento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="EventName" class="control-label"></label><input asp-for="EventName" class="form-control" /></div></td>
+                                </tr>
+                                <tr><td><div class="form-group"><label asp-for="MountDate" class="control-label"></label><input asp-for="MountDate" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><label asp-for="MountHour" class="control-label"></label><input asp-for="MountHour" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><label asp-for="PlaceContact" class="control-label"></label><input asp-for="PlaceContact" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><label asp-for="PlaceMobile" class="control-label"></label><input asp-for="PlaceMobile" class="form-control" /></div></td></tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="StartDate" class="control-label"></label><input asp-for="StartDate" class="form-control" /></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-5">
+                        <table border="0" class="table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="StartHour" class="control-label"></label><input asp-for="StartHour" class="form-control" /></div></td>
+                                </tr>
+                                <tr><td><div class="form-group"><label asp-for="FinishDate" class="control-label"></label><input asp-for="FinishDate" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><label asp-for="FinishHour" class="control-label"></label><input asp-for="FinishHour" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><label asp-for="Place" class="control-label"></label><input asp-for="Place" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><label asp-for="Address" class="control-label"></label><input asp-for="Address" class="form-control" /></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <h6>Datos PSAV</h6>
+                <div class="row">
+                    <div class="col-md-5">
+                        <table border="0" class="table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Representante de ventas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="SMName" class="control-label"></label><input asp-for="SMName" class="form-control" /></div></td>
+                                </tr>
+                                <tr><td><div class="form-group"><label asp-for="SMJob" class="control-label"></label><input asp-for="SMJob" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><label asp-for="SMEmail" class="control-label"></label><input asp-for="SMEmail" class="form-control" /></div></td></tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="SMPhone" class="control-label"></label><input asp-for="SMPhone" class="form-control" /></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-5">
+                        <table border="0" class="table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Production Manager</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="PMName" class="control-label"></label><input asp-for="PMName" class="form-control" /></div></td>
+                                </tr>
+                                <tr><td><div class="form-group"><label asp-for="PMMobile" class="control-label"></label><input asp-for="PMMobile" class="form-control" /></div></td></tr>
+                                <tr><td><div class="form-group"><label asp-for="PMEmail" class="control-label"></label><input asp-for="PMEmail" class="form-control" /></div></td></tr>
+                                <tr>
+                                    <td><div class="form-group"><label asp-for="PMLocation" class="control-label"></label><input asp-for="PMLocation" class="form-control" /></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <table border="0" class="table" width="100%">
+                            <tr>
+                                <td><button type="reset" class="btn btn-default">Cancelar Operación</button></td>
+                                <td><button type="submit" class="btn btn-default">Siguiente</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div id="modal-container" class="modal fade hidden-print" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                </div>
+            </div>
+        </div>
+    </section>
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }
+            }

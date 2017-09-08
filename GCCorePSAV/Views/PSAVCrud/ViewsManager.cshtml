@@ -1,0 +1,60 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@model GCCorePSAV.Models.PSAVCrud.ViewManagerModel.ViewManagerSearch
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+    <div class="row">
+        <h2>Monedas</h2>
+    </div>
+    <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a asp-action="ViewsManager" asp-controller="PSAVCrud">Consultas</a></li>
+        <li role="presentation"><a asp-action="NewVM" asp-controller="PSAVCrud">Nuevo</a></li>
+    </ul>
+    <form method="post" asp-controller="PSAVCrud" asp-action="ViewsManager" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input asp-for="FullName" class="form-control">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Buscar!</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </div>
+    </form>
+    <form method="post" asp-controller="PSAVCrud" asp-action="EditVM" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-horizontal">
+        <div class="row">
+            @if (ViewBag.VMList != null)
+                {
+                <div class="table-responsive">
+                    <table class="table table-striped ">
+                        <tr>
+                            <th>Vista</th>
+                          
+
+                        </tr>
+                        @foreach (var URMItem in ViewBag.VMList)
+                    {
+                            <tr>
+                                <td>@URMItem.VMName<input type="hidden" value="@URMItem.VMName" /></td>
+                                
+                                <td><button type="submit" class="btn btn-default">Ver +</button></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    </form>
+}
+else
+{
+    <br />
+    <div class="alert alert-danger" role="alert">No tiene permisos para acceder a esta opción</div>
+}

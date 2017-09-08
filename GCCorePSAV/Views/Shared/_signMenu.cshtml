@@ -1,0 +1,29 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using GCCorePSAV.Controllers.Services
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuthS(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <ul class="nav navbar-left">
+
+        @if (Lgc.MIMO != null)
+        {
+            foreach (var MimoParent in Lgc.MIMO)
+            {
+                <li class="dropdown-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@MimoParent.NameDDL<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        @foreach (var MimoSon in MimoParent.MenuD)
+                        {
+                            <li><a asp-controller="@MimoSon.LIController" asp-action="@MimoSon.LIAction">@MimoSon.LIText</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+
+        }
+    </ul>
+}
