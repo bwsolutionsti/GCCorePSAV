@@ -61,10 +61,10 @@ namespace GCCorePSAV
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            var projectId = GetProjectId();
+            //var projectId = GetProjectId();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddGoogle(projectId);
+            //loggerFactory.AddGoogle(projectId);
             loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
