@@ -17,6 +17,9 @@ using System.Diagnostics;
 
 namespace GCCorePSAV
 {
+
+
+
     public class ConnectionStrings
     {
         public string cadena { get; set; }
