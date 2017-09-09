@@ -27,14 +27,14 @@ namespace GCCorePSAV
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -45,6 +45,7 @@ namespace GCCorePSAV
             services.AddSession();
             services.AddTransient<GCCorePSAV.Controllers.Services.LoggedInComponent>();
             services.AddDistributedMemoryCache();
+            services.AddGoogleTrace(GetProjectId());
             //TraceConfiguration traceConfig = TraceConfiguration.Create(bufferOptions: BufferOptions.NoBuffer());
             //services.AddGoogleTrace(Configuration["Stackdriver:ProjectId"], traceConfig);
             services.AddRecaptcha(new RecaptchaOptions
@@ -61,10 +62,10 @@ namespace GCCorePSAV
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //var projectId = GetProjectId();
+            var projectId = GetProjectId();
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddGoogle(projectId);
+            loggerFactory.AddGoogle(projectId);
             loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
@@ -75,11 +76,13 @@ namespace GCCorePSAV
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                //app.UseGoogleExceptionLogging();
+                app.UseGoogleExceptionLogging(projectId,
+                    Configuration["GoogleErrorReporting:ServiceName"],
+                    Configuration["GoogleErrorReporting:Version"]);
             }
 
             app.UseStaticFiles();
-            //app.UseGoogleTrace();
+            app.UseGoogleTrace();
 
 
             app.UseSession();

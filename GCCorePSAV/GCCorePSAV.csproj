@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.0.1" />
 
     <!-- Adds logging and diagnostics for Google Cloud Platform. -->
-    <PackageReference Include="Google.Cloud.Diagnostics.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="Google.Cloud.Diagnostics.AspNetCore" Version="1.0.0-alpha08" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.0.0" />
     <PackageReference Include="NetCoreControls" Version="0.5.0-beta1" />
     <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.1" />
