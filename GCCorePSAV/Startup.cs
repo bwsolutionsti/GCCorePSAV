@@ -30,7 +30,7 @@ namespace GCCorePSAV
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -79,9 +79,9 @@ namespace GCCorePSAV
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseGoogleExceptionLogging(projectId,
-                    Configuration["GoogleErrorReporting:ServiceName"],
-                    Configuration["GoogleErrorReporting:Version"]);
+                //app.UseGoogleExceptionLogging(projectId,
+                //    Configuration["GoogleErrorReporting:ServiceName"],
+                //    Configuration["GoogleErrorReporting:Version"]);
             }
 
             app.UseStaticFiles();
