@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="EPPlus.Core" Version="1.5.2" />
     <PackageReference Include="Gma.QrCodeNet.Encoding" Version="1.0.1" />
+    <PackageReference Include="Grpc.Core" Version="1.6.0" />
     <PackageReference Include="jose-jwt" Version="2.4.0" />
     <PackageReference Include="jQWidgets.AspNetCore.Mvc.TagHelpers" Version="1.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />

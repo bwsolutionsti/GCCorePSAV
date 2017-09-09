@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Microsoft.AspNetCore.Session;
 using ByteNuts.NetCoreControls.Middleware;
+using System.Diagnostics;
 
 
 namespace GCCorePSAV
@@ -26,7 +27,7 @@ namespace GCCorePSAV
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -44,7 +45,8 @@ namespace GCCorePSAV
             services.AddSession();
             services.AddTransient<GCCorePSAV.Controllers.Services.LoggedInComponent>();
             services.AddDistributedMemoryCache();
-            //services.AddGoogleTrace();
+            //TraceConfiguration traceConfig = TraceConfiguration.Create(bufferOptions: BufferOptions.NoBuffer());
+            //services.AddGoogleTrace(Configuration["Stackdriver:ProjectId"], traceConfig);
             services.AddRecaptcha(new RecaptchaOptions
             {
                 SiteKey = "6LduOSYUAAAAAPlsMjSowBRisG7Jq1YwzbBiFS0m",
@@ -73,11 +75,11 @@ namespace GCCorePSAV
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseGoogleExceptionLogging();
+                //app.UseGoogleExceptionLogging();
             }
 
             app.UseStaticFiles();
-            app.UseGoogleTrace();
+            //app.UseGoogleTrace();
 
 
             app.UseSession();
